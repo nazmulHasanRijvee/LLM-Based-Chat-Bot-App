@@ -1,6 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <application
-        android:label="of27_llm_based_chat_bot_app"
+        android:label="LLM Based Chat-Bot"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
