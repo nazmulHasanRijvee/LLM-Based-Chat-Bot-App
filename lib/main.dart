@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:of27_llm_based_chat_bot_app/data/chat_api_service.dart';
+import 'package:of27_llm_based_chat_bot_app/presentation/providers/chat_provider.dart';
+import 'package:of27_llm_based_chat_bot_app/presentation/screens/chat_screen.dart';
+import 'package:of27_llm_based_chat_bot_app/presentation/screens/splash_screen.dart';
+import 'package:provider/provider.dart';
 
 void main() async {
 
@@ -7,7 +12,14 @@ void main() async {
 
   await dotenv.load(fileName: ".env");
 
-  runApp(const MyApp());
+  runApp(
+      MultiProvider(
+          providers: [
+            ChangeNotifierProvider(create: (_) => ChatProvider(chatApiService: ChatApiService()))
+          ],
+          child: const MyApp()
+      )
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -20,10 +32,19 @@ class MyApp extends StatelessWidget {
       title: 'Chat Bot',
       theme: ThemeData(
 
-        colorScheme: .fromSeed(seedColor: Colors.deepPurple),
+        colorSchemeSeed: Colors.deepPurple,
+
       ),
 
+      initialRoute: SplashScreen.routeName,
 
+      routes: {
+
+        SplashScreen.routeName : (context) => const SplashScreen(),
+
+        ChatScreen.routeName : (context) => const ChatScreen()
+
+      },
 
     );
   }

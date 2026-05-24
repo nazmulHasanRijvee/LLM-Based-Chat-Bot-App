@@ -20,6 +20,7 @@ class AppStrings {
   static final String apiKey =  'Bearer $loadKey';
 
   static const String baseUrl = 'https://openrouter.ai/api/v1';
+  static const String chatUrl = '$baseUrl/chat/completions';
   static const String model = 'google/gemini-3.1-flash-lite';
   static const String systemPrompt =
       'You are a helpful and friendly AI assistant.';
