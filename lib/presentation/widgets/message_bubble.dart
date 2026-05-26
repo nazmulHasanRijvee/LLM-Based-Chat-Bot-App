@@ -44,7 +44,7 @@ class MessageBubble extends StatelessWidget {
 
         child: Column(
 
-          crossAxisAlignment: .end,
+          crossAxisAlignment: isUser ? .end : .start,
           mainAxisSize: .min,
 
           children: [
@@ -60,7 +60,7 @@ class MessageBubble extends StatelessWidget {
             const SizedBox(height: 4),
             Text(
               _formatTime(messageEntity.time),
-              style: const TextStyle(color: AppColors.timestamp, fontSize: 11),
+              style: TextStyle(color: isUser ? AppColors.userTimestamp : AppColors.botTimeStamp, fontSize: 11),
             )
 
           ],
@@ -76,7 +76,7 @@ class MessageBubble extends StatelessWidget {
 
     final hour = time.hour.toString().padLeft(2, '0');
     final minutes = time.minute.toString().padLeft(2, '0');
-    return '$hour:$minutes}';
+    return '$hour:$minutes';
 
   }
 

@@ -20,7 +20,7 @@ class ChatApiService {
       final Map<String, String> headers = {
         
         'Content-Type' : 'application/json',
-        'Authorization' : 'Bearer ${AppStrings.apiKey}'
+        'Authorization' : AppStrings.apiKey
         
       };
       
@@ -47,6 +47,8 @@ class ChatApiService {
       final int statusCode = response.statusCode;
 
       final decodedData = jsonDecode(response.body);
+
+      debugPrint('StatusCode => $statusCode\ndata => $decodedData');
 
       if(statusCode == 200 || statusCode == 201){
 

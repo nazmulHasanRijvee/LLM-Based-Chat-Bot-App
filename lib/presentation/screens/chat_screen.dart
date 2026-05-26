@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:of27_llm_based_chat_bot_app/core/constants/app_strings.dart';
 import 'package:of27_llm_based_chat_bot_app/presentation/providers/chat_provider.dart';
+import 'package:of27_llm_based_chat_bot_app/presentation/widgets/chat_input_field.dart';
 import 'package:of27_llm_based_chat_bot_app/presentation/widgets/empty_chat.dart';
 import 'package:of27_llm_based_chat_bot_app/presentation/widgets/message_bubble.dart';
 import 'package:of27_llm_based_chat_bot_app/presentation/widgets/typing_indicator.dart';
@@ -40,6 +41,8 @@ class _ChatScreenState extends State<ChatScreen> {
               child: Icon(Icons.smart_toy_outlined, size: 22),
             ),
 
+            const SizedBox(width: 10),
+
             Text(
               AppStrings.appName,
               style: const TextStyle(
@@ -49,26 +52,31 @@ class _ChatScreenState extends State<ChatScreen> {
               ),
             ),
 
-            Container(
-              height: 8,
-              width: 8,
-              decoration: const BoxDecoration( color: Colors.greenAccent, shape: .circle),
-            ),
-
-            const SizedBox(width: 6,),
-
-            Text(
-              'Online',
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 14,
-                fontWeight: .w500
-              ),
-            )
+            const SizedBox(width: 10),
 
           ],
 
         ),
+
+        actions: [
+          Container(
+            height: 8,
+            width: 8,
+            decoration: const BoxDecoration( color: Colors.greenAccent, shape: .circle),
+          ),
+
+          const SizedBox(width: 6,),
+
+          Text(
+            'Online',
+            style: const TextStyle(
+                color: Colors.white,
+                fontSize: 14,
+                fontWeight: .w500
+            ),
+          ),
+          const SizedBox(width: 20)
+        ],
 
       ),
 
@@ -84,7 +92,7 @@ class _ChatScreenState extends State<ChatScreen> {
 
                   Expanded(
                       child: provider.messages.isEmpty && !provider.isLoading
-                          ? EmptyChat()
+                          ? const Center(child: EmptyChat())
                           : ListView.builder(
                             itemCount: provider.messages.length + (provider.isLoading ? 1 : 0),
                             itemBuilder: (BuildContext context, int index) {
@@ -93,13 +101,22 @@ class _ChatScreenState extends State<ChatScreen> {
 
                               return MessageBubble(messageEntity: provider.messages[index]);
 
-
-
                           }
                       )
                   ),
 
+                  ChatInputField(
+                      onSend: (text) async {
 
+                        final isSuccess = await provider.sendMessage(text);
+
+                        if(!isSuccess){
+                          throw Exception('${provider.errorMessage}');
+                        }
+
+                      },
+                      isLoading: provider.isLoading
+                  )
 
                 ],
 

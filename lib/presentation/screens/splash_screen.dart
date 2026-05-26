@@ -40,9 +40,15 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
 
     await Future.delayed(const Duration(seconds: 3), () {
       if(!mounted) return;
-      Navigator.pushNamed(context, ChatScreen.routeName);
+      Navigator.pushReplacementNamed(context, ChatScreen.routeName);
     });
 
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
   }
 
   @override

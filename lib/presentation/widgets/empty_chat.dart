@@ -8,8 +8,7 @@ class EmptyChat extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    return Center(
-
+    return SingleChildScrollView(
       child: Column(
 
         children: [
@@ -21,7 +20,6 @@ class EmptyChat extends StatelessWidget {
         ],
 
       ),
-
     );
 
   }
