@@ -15,7 +15,7 @@ class ChatInputField extends StatefulWidget {
     required this.onSend,
     required this.isLoading,
     this.hintText,
-    this.sendIcon
+    this.sendIcon,
   });
 
   @override

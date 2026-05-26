@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../core/constants/app_colors.dart';
-import '../../core/constants/app_strings.dart';
 import '../providers/chat_provider.dart';
+import '../widgets/chat_app_bar.dart';
 import '../widgets/chat_input_field.dart';
 import '../widgets/empty_chat.dart';
 import '../widgets/message_bubble.dart';
@@ -22,7 +22,6 @@ class ChatScreen extends StatefulWidget {
 class _ChatScreenState extends State<ChatScreen> {
 
   late final ScrollController _scrollController;
-  //bool _showScrollButton = false;
 
   final ValueNotifier<bool> _showScrollButton = ValueNotifier(false);
 
@@ -60,138 +59,83 @@ class _ChatScreenState extends State<ChatScreen> {
 
     return Scaffold(
 
-      appBar: AppBar(
+      appBar: ChatAppBar(),
 
-        backgroundColor: AppColors.primary,
+      body: Padding(
+        padding: const EdgeInsets.all(8),
+        child: Consumer<ChatProvider>(
+            builder: (BuildContext context, provider, child) {
+          return Column(
+            children: [
 
-        title: Row(
-
-          children: [
-
-            Container(
-              height: 36,
-              width: 36,
-              decoration: const BoxDecoration(color: Colors.white, shape: .circle),
-              child: Icon(Icons.smart_toy_outlined, size: 22),
-            ),
-
-            const SizedBox(width: 10),
-
-            const Text(
-              AppStrings.appName,
-              style: TextStyle(
-                color: Colors.white,
-                fontWeight: .w500,
-                fontSize: 14
+              Expanded(
+                  child: provider.messages.isEmpty && !provider.isLoading
+                      ? const Center(child: EmptyChat())
+                      : buildListView(provider)
               ),
-            ),
 
-            const SizedBox(width: 10),
+              ChatInputField(
+                  onSend: (text) async {
 
-          ],
+                    final isSuccess = await provider.sendMessage(text);
 
-        ),
-
-        actions: [
-          Container(
-            height: 8,
-            width: 8,
-            decoration: const BoxDecoration( color: Colors.greenAccent, shape: .circle),
-          ),
-
-          const SizedBox(width: 6,),
-
-          const Text(
-            'Online',
-            style: TextStyle(
-                color: Colors.white,
-                fontSize: 14,
-                fontWeight: .w500
-            ),
-          ),
-          const SizedBox(width: 20)
-        ],
-
-      ),
-
-      body: Stack(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(8),
-            child: Consumer<ChatProvider>(
-                builder: (BuildContext context, provider, child) {
-              return Column(
-                children: [
-                  Expanded(
-                      child: provider.messages.isEmpty && !provider.isLoading
-                          ? const Center(child: EmptyChat())
-                          : ListView.builder(
-                              controller: _scrollController,
-                              itemCount: provider.messages.length +
-                                  (provider.isLoading ? 1 : 0),
-                              itemBuilder: (BuildContext context, int index) {
-                                if (index == provider.messages.length) {
-                                  return const TypingIndicator();
-                                }
-
-                                return MessageBubble(
-                                    messageEntity: provider.messages[index]);
-                              })),
-                  ChatInputField(
-                      onSend: (text) async {
-                        final isSuccess = await provider.sendMessage(text);
-
-                        if (!isSuccess) {
-                          if (context.mounted) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                  content: Text(provider.errorMessage ??
-                                      'Failed to send message')),
-                            );
-                          }
-                        } else {
-                          _scrollToBottom();
-                        }
-                      },
-                      isLoading: provider.isLoading
-                  )
-                ],
-              );
-            }),
-          ),
-          // if (_showScrollButton)
-          //   Align(
-          //     alignment: Alignment(0.0, 0.8),
-          //     child: FloatingActionButton.small(
-          //       onPressed: _scrollToBottom,
-          //       backgroundColor: AppColors.primary,
-          //       child: const Icon(Icons.arrow_downward, color: Colors.white),
-          //     ),
-          //   ),
-          ValueListenableBuilder(
-              valueListenable: _showScrollButton,
-              builder: (BuildContext context, value, child){
-
-                if (value) {
-                  return Align(
-                    alignment: Alignment(0.0, 0.8),
-                    child: FloatingActionButton.small(
-                      onPressed: _scrollToBottom,
-                      backgroundColor: AppColors.primary,
-                      child: const Icon(Icons.arrow_downward, color: Colors.white),
-                    ),
-                  );
-                }
-
-                return const SizedBox.shrink();
-
-              }
-          )
-        ],
+                    if (isSuccess) {
+                      _scrollToBottom();
+                    } else {
+                      if (!context.mounted) return;
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                            content: Text(provider.errorMessage ?? 'Failed to send message')),
+                      );
+                    }
+                  },
+                  isLoading: provider.isLoading
+              )
+            ],
+          );
+        }),
       ),
 
     );
 
+  }
+
+  Stack buildListView(ChatProvider provider) {
+    return Stack(
+      children: [
+        ListView.builder(
+            controller: _scrollController,
+            itemCount: provider.messages.length +
+                (provider.isLoading ? 1 : 0),
+            itemBuilder: (BuildContext context, int index) {
+              if (index == provider.messages.length) {
+                return const TypingIndicator();
+              }
+
+              return MessageBubble(
+                  messageEntity: provider.messages[index]);
+            }),
+        ValueListenableBuilder(
+            valueListenable: _showScrollButton,
+            builder: (BuildContext context, value, child){
+
+              if (!value) {
+                return const SizedBox.shrink();
+              }
+
+              return Align(
+                alignment: Alignment(0.0, 1.0),
+                child: FloatingActionButton.small(
+                  onPressed: _scrollToBottom,
+                  backgroundColor: AppColors.primary,
+                  child: const Icon(Icons.arrow_downward, color: Colors.white),
+                ),
+              );
+
+            }
+            )
+      ],
+    );
   }
 
   void _scrollToBottom() {
