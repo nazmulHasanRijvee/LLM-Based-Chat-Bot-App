@@ -29,6 +29,10 @@ class ChatProvider extends ChangeNotifier{
 
     notifyListeners();
 
+    final debugList = _messages.map((e) => e.text).toList();
+
+    debugPrint('Sending => $debugList');
+
     final apiResponse = await chatApiService.fetchAssistantReply(_messages);
 
     if (apiResponse.isSuccess){
