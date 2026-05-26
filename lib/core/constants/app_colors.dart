@@ -13,6 +13,7 @@ class AppColors {
   static const Color botText = Color(0xFF1A1A1A);
 
   static const Color inputBackground = Colors.white;
-  static const Color timestamp = Color(0xFF9E9E9E);
+  static const Color userTimestamp = Colors.white54;
+  static const Color botTimeStamp = Colors.black54;
   static const Color error = Color(0xFFE53935);
 }

@@ -17,7 +17,7 @@ class AppStrings {
 
   // Chat API
   static final loadKey = dotenv.env['CHAT_API_KEY'] ?? '';
-  static final String apiKey =  'Bearer $loadKey';
+  static String get apiKey =>  'Bearer $loadKey';
 
   static const String baseUrl = 'https://openrouter.ai/api/v1';
   static const String chatUrl = '$baseUrl/chat/completions';
