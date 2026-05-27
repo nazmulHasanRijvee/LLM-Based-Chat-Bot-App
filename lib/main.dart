@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:of27_llm_based_chat_bot_app/data/chat_api_service.dart';
+import 'package:of27_llm_based_chat_bot_app/data/services/chat_api_service.dart';
 import 'package:of27_llm_based_chat_bot_app/presentation/providers/chat_provider.dart';
 import 'package:of27_llm_based_chat_bot_app/presentation/screens/chat_screen.dart';
 import 'package:of27_llm_based_chat_bot_app/presentation/screens/splash_screen.dart';

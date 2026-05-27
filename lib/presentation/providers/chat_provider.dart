@@ -1,6 +1,6 @@
 
 import 'package:flutter/material.dart';
-import 'package:of27_llm_based_chat_bot_app/data/chat_api_service.dart';
+import 'package:of27_llm_based_chat_bot_app/data/services/chat_api_service.dart';
 import 'package:of27_llm_based_chat_bot_app/data/models/message_model.dart';
 
 class ChatProvider extends ChangeNotifier{
