@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:of27_llm_based_chat_bot_app/domain/entities/image_message.dart';
 
 import '../../data/services/image_gen_api_service.dart';
@@ -13,7 +13,7 @@ class ImageGenProvider extends ChangeNotifier {
   bool _isLoading = false;
   String? _errorMessage;
 
-  List<ImageMessage> get message => List.unmodifiable(_messages);
+  List<ImageMessage> get messages => List.unmodifiable(_messages);
   bool get isLoading => _isLoading;
   String? get errorMessage => _errorMessage;
 

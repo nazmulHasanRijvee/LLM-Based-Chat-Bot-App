@@ -9,6 +9,7 @@ class AppStrings {
   static const String imageGenInputHint = 'Describe an image...';
   static const String emptyChat =
       'Start a conversation!\nSend a message below.';
+  static const String emptyImageChat = 'No images generated yet\nDescribe an image below';
 
   static const String errorNoInternet =
       'No internet connection. Please check and try again.';
