@@ -1,25 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:of27_llm_based_chat_bot_app/presentation/providers/image_gen_provider.dart';
+import 'package:of27_llm_based_chat_bot_app/presentation/widgets/empty_image_gen.dart';
+import 'package:of27_llm_based_chat_bot_app/presentation/widgets/image_message_bubble.dart';
 import 'package:provider/provider.dart';
 
 import '../../core/constants/app_colors.dart';
-import '../providers/chat_provider.dart';
+import '../../core/constants/app_strings.dart';
 import '../widgets/chat_app_bar.dart';
 import '../widgets/chat_input_field.dart';
-import '../widgets/empty_chat.dart';
-import '../widgets/message_bubble.dart';
 import '../widgets/typing_indicator.dart';
 
-class ChatScreen extends StatefulWidget {
+class ImageGenScreen extends StatefulWidget {
 
-  static const String routeName = '/chat-screen';
-
-  const ChatScreen({super.key});
+  const ImageGenScreen({super.key});
 
   @override
-  State<ChatScreen> createState() => _ChatScreenState();
+  State<ImageGenScreen> createState() => _ImageGenScreenState();
 }
 
-class _ChatScreenState extends State<ChatScreen> {
+class _ImageGenScreenState extends State<ImageGenScreen> {
 
   late final ScrollController _scrollController;
 
@@ -63,58 +62,61 @@ class _ChatScreenState extends State<ChatScreen> {
 
       body: Padding(
         padding: const EdgeInsets.all(8),
-        child: Consumer<ChatProvider>(
+        child: Consumer<ImageGenProvider>(
             builder: (BuildContext context, provider, child) {
-          return Column(
-            children: [
+              return Column(
+                children: [
 
-              Expanded(
-                  child: provider.messages.isEmpty && !provider.isLoading
-                      ? const Center(child: EmptyChat())
-                      : buildListView(provider)
-              ),
+                  Expanded(
+                      child: provider.messages.isEmpty && !provider.isLoading
+                          ? const Center(child: EmptyImageGen())
+                          : buildListView(provider)
+                  ),
 
-              ChatInputField(
-                  onSend: (text) async {
+                  ChatInputField(
+                    onSend: (text) async {
 
-                    final isSuccess = await provider.sendMessage(text);
+                      final isSuccess = await provider.generateImage(text);
 
-                    if (isSuccess) {
-                      _scrollToBottom();
-                    } else {
-                      if (!context.mounted) return;
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                            content: Text(provider.errorMessage ?? 'Failed to send message')),
-                      );
-                    }
-                  },
-                  isLoading: provider.isLoading
-              )
-            ],
-          );
-        }),
+                      if (isSuccess) {
+                        _scrollToBottom();
+                      } else {
+                        if (!context.mounted) return;
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                              content: Text(provider.errorMessage ?? 'Failed to send message')),
+                        );
+                      }
+                      },
+                      isLoading: provider.isLoading,
+                      hintText: AppStrings.imageGenInputHint,
+                      sendIcon: Icons.auto_awesome,
+                  )
+                ],
+              );
+            }),
       ),
 
     );
 
   }
 
-  Stack buildListView(ChatProvider provider) {
+  Stack buildListView(ImageGenProvider provider) {
     return Stack(
       children: [
         ListView.builder(
             controller: _scrollController,
             itemCount: provider.messages.length +
                 (provider.isLoading ? 1 : 0),
+
             itemBuilder: (BuildContext context, int index) {
 
               if (index == provider.messages.length) {
                 return const TypingIndicator();
               }
 
-              return MessageBubble(
-                  messageEntity: provider.messages[index]);
+              return ImageMessageBubble(message: provider.messages[index]);
+
             }),
         ValueListenableBuilder(
             valueListenable: _showScrollButton,
@@ -134,7 +136,7 @@ class _ChatScreenState extends State<ChatScreen> {
               );
 
             }
-            )
+        )
       ],
     );
   }

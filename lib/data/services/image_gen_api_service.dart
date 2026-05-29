@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:flutter/material.dart';
 import 'package:of27_llm_based_chat_bot_app/core/constants/app_strings.dart';
 import 'package:of27_llm_based_chat_bot_app/data/services/chat_api_service.dart';
 import 'package:http/http.dart' as http;
@@ -10,7 +11,9 @@ class ImageGenApiService {
 
   Future<ApiResponse> generateImage(String prompt) async {
 
-    final Uri uri = Uri.parse(AppStrings.chatUrl);
+    debugPrint('URL => ${AppStrings.imageGenBaseUrl}\nLLM Model => ${AppStrings.imageGenModel}');
+
+    final Uri uri = Uri.parse(AppStrings.imageGenBaseUrl);
 
     final headers = {
       'Content-Type': 'application/json',
@@ -18,15 +21,13 @@ class ImageGenApiService {
     };
 
     final data = {
-      {
         'model': AppStrings.imageGenModel,
         'max_tokens': 1024,
         'messages': [
           {'role': 'user', 'content': prompt},
         ],
         'modalities': ['image', 'text'],
-      }
-    };
+      };
 
     try {
 
@@ -38,6 +39,8 @@ class ImageGenApiService {
 
       final int statusCode = response.statusCode;
       final decodedData = jsonDecode(response.body);
+
+      debugPrint('StatusCode => $statusCode\ndata => $decodedData');
 
       if (statusCode == 200 || statusCode ==201) {
 
