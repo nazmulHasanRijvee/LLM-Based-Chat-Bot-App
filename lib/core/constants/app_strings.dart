@@ -26,8 +26,8 @@ class AppStrings {
       'You are a helpful and friendly AI assistant.';
 
   // Image Generation API
-  static const String imageGenApiKey =
-      '';
-  static const String imageGenBaseUrl = 'https://openrouter.ai/api/v1';
+  static String get imageGenApiKey =>
+      'Bearer $loadKey';
+  static const String imageGenBaseUrl = 'https://openrouter.ai/api/v1/chat/completions';
   static const String imageGenModel = 'google/gemini-2.5-flash-image';
 }
