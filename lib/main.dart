@@ -3,6 +3,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:of27_llm_based_chat_bot_app/data/services/chat_api_service.dart';
 import 'package:of27_llm_based_chat_bot_app/presentation/providers/chat_provider.dart';
 import 'package:of27_llm_based_chat_bot_app/presentation/screens/chat_screen.dart';
+import 'package:of27_llm_based_chat_bot_app/presentation/screens/main_screen.dart';
 import 'package:of27_llm_based_chat_bot_app/presentation/screens/splash_screen.dart';
 import 'package:provider/provider.dart';
 
@@ -42,7 +43,9 @@ class MyApp extends StatelessWidget {
 
         SplashScreen.routeName : (context) => const SplashScreen(),
 
-        ChatScreen.routeName : (context) => const ChatScreen()
+        ChatScreen.routeName : (context) => const ChatScreen(),
+
+        MainScreen.routeName : (context) => const MainScreen()
 
       },
 

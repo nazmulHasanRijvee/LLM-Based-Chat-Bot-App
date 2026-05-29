@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:of27_llm_based_chat_bot_app/core/constants/app_strings.dart';
-import 'package:of27_llm_based_chat_bot_app/presentation/screens/chat_screen.dart';
 
 import '../../core/constants/app_colors.dart';
+import 'main_screen.dart';
 
 class SplashScreen extends StatefulWidget {
 
@@ -40,7 +40,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
 
     await Future.delayed(const Duration(seconds: 3), () {
       if(!mounted) return;
-      Navigator.pushReplacementNamed(context, ChatScreen.routeName);
+      Navigator.pushReplacementNamed(context, MainScreen.routeName);
     });
 
   }

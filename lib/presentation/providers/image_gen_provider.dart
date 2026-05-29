@@ -33,8 +33,9 @@ class ImageGenProvider extends ChangeNotifier {
 
     if(apiResponse.isSuccess){
 
-      final content = apiResponse.body['choices'][0]['message']['content'];
-      final images = apiResponse.body['choices'][0]['message']['images'];
+      final message = apiResponse.body['choices'][0]['message'];
+      final content = message['content'];
+      final images = message['images'];
 
       if (images is !List || images.isEmpty) {
         _errorMessage = 'No Image was returned. Try a more descriptive prompt';
