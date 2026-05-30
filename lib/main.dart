@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:of27_llm_based_chat_bot_app/data/services/chat_api_service.dart';
-import 'package:of27_llm_based_chat_bot_app/presentation/providers/chat_provider.dart';
-import 'package:of27_llm_based_chat_bot_app/presentation/providers/image_gen_provider.dart';
-import 'package:of27_llm_based_chat_bot_app/presentation/screens/chat_screen.dart';
-import 'package:of27_llm_based_chat_bot_app/presentation/screens/main_screen.dart';
-import 'package:of27_llm_based_chat_bot_app/presentation/screens/splash_screen.dart';
 import 'package:provider/provider.dart';
+
+import 'data/services/chat_api_service.dart';
+import 'presentation/providers/chat_provider.dart';
+import 'presentation/providers/image_gen_provider.dart';
+import 'presentation/screens/main_screen.dart';
+import 'presentation/screens/splash_screen.dart';
 
 void main() async {
 
@@ -44,8 +44,6 @@ class MyApp extends StatelessWidget {
       routes: {
 
         SplashScreen.routeName : (context) => const SplashScreen(),
-
-        ChatScreen.routeName : (context) => const ChatScreen(),
 
         MainScreen.routeName : (context) => const MainScreen()
 
