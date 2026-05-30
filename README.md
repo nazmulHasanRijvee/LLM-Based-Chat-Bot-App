@@ -19,7 +19,7 @@ A modern Flutter application that leverages powerful LLMs for conversational AI 
 
 | Splash Screen | Chat Screen | Loading Screen | Image-gen Screen |
 |:-------------:|:-----------:|:--------------:|:----------------:|
-|               |             |                |                  |
+|<img width="270" height="585" alt="Screenshot_20260530_104422" src="https://github.com/user-attachments/assets/d847842e-b75a-4fd8-b077-ef1c0db522f1" />|<img width="270" height="585" alt="Screenshot_20260529_201138" src="https://github.com/user-attachments/assets/ed4f3ca7-3543-4278-8465-5c3789810d10" />|<img width="270" height="585" alt="Screenshot_20260529_201116" src="https://github.com/user-attachments/assets/aa60f3db-7aab-4a82-9eea-a2adfb445c0d" />|<img width="270" height="585" alt="Screenshot_20260529_201044" src="https://github.com/user-attachments/assets/e62ec2c8-d159-4244-b26a-a73e2a3ae340" />|
 
 ## 🛠️ Project Structure
 
